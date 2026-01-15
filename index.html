@@ -1,1 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>@ItsSpankem</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
+<style>
+:root {
+  --bg-overlay: rgba(0,0,0,0.65);
+  --text: #fff;
+  --accent: #ff1e1e;
+  --card: rgba(15,15,15,0.7);
+}
+
+body.light {
+  --bg-overlay: rgba(255,255,255,0.6);
+  --text: #000;
+  --card: rgba(255,255,255,0.8);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  color: var(--text);
+  overflow-x: hidden;
+  background: black;
+}
+
+/* BACKGROUND IMAGE */
+.bg {
+  position: fixed;
+  inset: 0;
+  background: url("ItsSpankemV2.png") center/cover no-repeat;
+  filter: blur(5px);
+  transform: scale(1.05);
+  z-index: -3;
+}
+
+/* DARK OVERLAY */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--bg-overlay);
+  z-index: -2;
+}
+
+/* GRAIN */
+.grain {
+  position: fixed;
+  inset: 0;
+  background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+  opacity: 0.15;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* ENTER SCREEN */
+.enter {
+  position: fixed;
+  inset: 0;
+  background: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+  cursor: pointer;
+  animation: fadeIn 2s ease;
+}
+
+.enter h1 {
+  font-size: 42px;
+  color: var(--accent);
+  text-shadow: 0 0 25px var(--accent);
+  animation: pulse 2s infinite;
+}
+
+/* CONTENT */
+.content {
+  text-align: center;
+  padding: 40px;
+  animation: pageLoad 1.8s ease;
+}
+
+h1 {
+  font-size: 38px;
+  margin-bottom: 25px;
+  text-shadow: 0 0 20px var(--accent);
+}
+
+a {
+  display: block;
+  max-width: 320px;
+  margin: 12px auto;
+  padding: 15px;
+  color: white;
+  text-decoration: none;
+  background: var(--card);
+  border-radius: 12px;
+  border: 2px solid var(--accent);
+  box-shadow: 0 0 15px rgba(255,30,30,0.6);
+  transition: 0.3s;
+}
+
+a:hover {
+  transform: scale(1.06);
+}
+
+/* VOLUME */
+.volume {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  background: var(--card);
+  padding: 10px;
+  border-radius: 10px;
+  z-index: 15;
+}
+
+/* TOGGLE */
+.toggle {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  z-index: 15;
+  cursor: pointer;
+  background: var(--card);
+  padding: 10px;
+  border-radius: 10px;
+}
+
+/* DISCORD */
+.discord {
+  position: fixed;
+  bottom: 15px;
+  left: 15px;
+  width: 280px;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 0 25px rgba(255,30,30,0.6);
+}
+
+/* ANIMATIONS */
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pageLoad {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: none; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="bg"></div>
+<div class="overlay"></div>
+<div class="grain"></div>
+
+<!-- ENTER -->
+<div class="enter" id="enter">
+  <h1>Click To Enter</h1>
+</div>
+
+<!-- AUDIO -->
+<audio id="music" src="music.mp3" loop></audio>
+
+<!-- UI -->
+<div class="volume">
+  <input type="range" min="0" max="100" value="0" id="vol">
+</div>
+
+<div class="toggle" onclick="toggleMode()">🌗</div>
+
+<!-- CONTENT -->
+<div class="content">
+  <h1>@ItsSpankem</h1>
+
+  <a href="#">Instagram</a>
+  <a href="#">TikTok</a>
+  <a href="#">YouTube</a>
+  <a href="#">Discord</a>
+  <a href="#">Twitch</a>
+</div>
+
+<!-- DISCORD WIDGET -->
+<div class="discord">
+  <iframe src="https://discord.com/widget?id=YOUR_SERVER_ID&theme=dark"
+    width="280" height="360"
+    allowtransparency="true"
+    frameborder="0"
+    sandbox="allow-popups allow-same-origin allow-scripts"></iframe>
+</div>
+
+<script>
+const enter = document.getElementById("enter");
+const music = document.getElementById("music");
+const vol = document.getElementById("vol");
+
+enter.onclick = () => {
+  enter.style.opacity = "0";
+  setTimeout(() => enter.remove(), 1000);
+  music.volume = 0;
+  music.play();
+  let v = 0;
+  let fade = setInterval(() => {
+    if (v >= 0.6) clearInterval(fade);
+    music.volume = v;
+    v += 0.02;
+  }, 120);
+};
+
+vol.oninput = () => music.volume = vol.value / 100;
+
+function toggleMode() {
+  document.body.classList.toggle("light");
+}
+
+/* VISITOR COUNT (ONCE) */
+if (!localStorage.getItem("visited")) {
+  localStorage.setItem("visited", "true");
+  console.log("Unique visit counted");
+}
+
+/* FADE OUT ON LEAVE */
+window.addEventListener("beforeunload", () => {
+  document.body.style.opacity = "0";
+});
+</script>
+
+</body>
+</html>
