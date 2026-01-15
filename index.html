@@ -7,16 +7,15 @@
 
 <style>
 :root {
-  --bg-overlay: rgba(0,0,0,0.65);
+  --overlay: rgba(0,0,0,0.65);
+  --card: rgba(20,20,20,0.75);
+  --card-light: rgba(200,200,200,0.85);
   --text: #fff;
-  --accent: #ff1e1e;
-  --card: rgba(15,15,15,0.7);
 }
 
 body.light {
-  --bg-overlay: rgba(255,255,255,0.6);
+  --overlay: rgba(255,255,255,0.6);
   --text: #000;
-  --card: rgba(255,255,255,0.8);
 }
 
 * {
@@ -27,12 +26,12 @@ body.light {
 
 body {
   font-family: Arial, sans-serif;
-  color: var(--text);
-  overflow-x: hidden;
   background: black;
+  color: var(--text);
+  overflow: hidden;
 }
 
-/* BACKGROUND IMAGE */
+/* BACKGROUND */
 .bg {
   position: fixed;
   inset: 0;
@@ -42,11 +41,10 @@ body {
   z-index: -3;
 }
 
-/* DARK OVERLAY */
 .overlay {
   position: fixed;
   inset: 0;
-  background: var(--bg-overlay);
+  background: var(--overlay);
   z-index: -2;
 }
 
@@ -57,54 +55,76 @@ body {
   background-image: url("https://grainy-gradients.vercel.app/noise.svg");
   opacity: 0.15;
   pointer-events: none;
-  z-index: 10;
+  z-index: 5;
 }
 
-/* ENTER SCREEN */
+/* ENTER */
 .enter {
   position: fixed;
   inset: 0;
   background: black;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   z-index: 20;
   cursor: pointer;
-  animation: fadeIn 2s ease;
 }
 
 .enter h1 {
+  color: red;
   font-size: 42px;
-  color: var(--accent);
-  text-shadow: 0 0 25px var(--accent);
   animation: pulse 2s infinite;
 }
 
-/* CONTENT */
-.content {
+/* CENTER CONTENT */
+.center {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  padding: 40px;
-  animation: pageLoad 1.8s ease;
 }
 
-h1 {
-  font-size: 38px;
+/* USERNAME */
+.username {
+  position: relative;
+  font-size: 42px;
   margin-bottom: 25px;
-  text-shadow: 0 0 20px var(--accent);
+  opacity: 0.75;
+  text-shadow: 0 0 20px red;
 }
 
+/* SNOWFLAKES */
+.flake {
+  position: absolute;
+  pointer-events: none;
+  animation: float 4s linear infinite;
+}
+
+@keyframes float {
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(-120px); opacity: 0; }
+}
+
+/* SOCIALS */
 a {
-  display: block;
-  max-width: 320px;
-  margin: 12px auto;
+  width: 320px;
+  margin: 10px;
   padding: 15px;
-  color: white;
   text-decoration: none;
+  color: white;
   background: var(--card);
   border-radius: 12px;
-  border: 2px solid var(--accent);
-  box-shadow: 0 0 15px rgba(255,30,30,0.6);
+  border: 2px solid red;
+  box-shadow: 0 0 15px rgba(255,0,0,0.6);
   transition: 0.3s;
+}
+
+body.light a {
+  background: var(--card-light);
+  color: black;
 }
 
 a:hover {
@@ -119,7 +139,7 @@ a:hover {
   background: var(--card);
   padding: 10px;
   border-radius: 10px;
-  z-index: 15;
+  z-index: 10;
 }
 
 /* TOGGLE */
@@ -127,38 +147,17 @@ a:hover {
   position: fixed;
   top: 15px;
   right: 15px;
-  z-index: 15;
   cursor: pointer;
   background: var(--card);
   padding: 10px;
   border-radius: 10px;
+  z-index: 10;
 }
 
-/* DISCORD */
-.discord {
-  position: fixed;
-  bottom: 15px;
-  left: 15px;
-  width: 280px;
-  border-radius: 15px;
-  overflow: hidden;
-  box-shadow: 0 0 25px rgba(255,30,30,0.6);
-}
-
-/* ANIMATIONS */
+/* ANIMS */
 @keyframes pulse {
   0% { opacity: 0.6; }
   100% { opacity: 1; }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes pageLoad {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: none; }
 }
 </style>
 </head>
@@ -179,39 +178,31 @@ a:hover {
 
 <!-- UI -->
 <div class="volume">
-  <input type="range" min="0" max="100" value="0" id="vol">
+  <input type="range" id="vol" min="0" max="100" value="0">
 </div>
 
 <div class="toggle" onclick="toggleMode()">🌗</div>
 
 <!-- CONTENT -->
-<div class="content">
-  <h1>@ItsSpankem</h1>
+<div class="center">
+  <div class="username" id="name">@ItsSpankem</div>
 
-  <a href="#">Instagram</a>
-  <a href="#">TikTok</a>
-  <a href="#">YouTube</a>
-  <a href="#">Discord</a>
-  <a href="#">Twitch</a>
-</div>
-
-<!-- DISCORD WIDGET -->
-<div class="discord">
-  <iframe src="https://discord.com/widget?id=YOUR_SERVER_ID&theme=dark"
-    width="280" height="360"
-    allowtransparency="true"
-    frameborder="0"
-    sandbox="allow-popups allow-same-origin allow-scripts"></iframe>
+  <a href="https://www.instagram.com/bloodyhoundjefferyfto/?hl=en">Instagram</a>
+  <a href="https://www.tiktok.com/@itsspankem">TikTok</a>
+  <a href="https://www.youtube.com/@obndracc">YouTube</a>
+  <a href="https://discord.gg/R77PDTjb">Discord</a>
+  <a href="https://www.twitch.tv/obndracc">Twitch</a>
 </div>
 
 <script>
 const enter = document.getElementById("enter");
 const music = document.getElementById("music");
 const vol = document.getElementById("vol");
+const name = document.getElementById("name");
 
 enter.onclick = () => {
   enter.style.opacity = "0";
-  setTimeout(() => enter.remove(), 1000);
+  setTimeout(() => enter.remove(), 900);
   music.volume = 0;
   music.play();
   let v = 0;
@@ -228,16 +219,16 @@ function toggleMode() {
   document.body.classList.toggle("light");
 }
 
-/* VISITOR COUNT (ONCE) */
-if (!localStorage.getItem("visited")) {
-  localStorage.setItem("visited", "true");
-  console.log("Unique visit counted");
-}
-
-/* FADE OUT ON LEAVE */
-window.addEventListener("beforeunload", () => {
-  document.body.style.opacity = "0";
-});
+/* RGB SNOWFLAKES */
+setInterval(() => {
+  const f = document.createElement("div");
+  f.className = "flake";
+  f.textContent = "❄";
+  f.style.left = Math.random() * 200 + "px";
+  f.style.color = `hsl(${Math.random()*360},100%,60%)`;
+  name.appendChild(f);
+  setTimeout(() => f.remove(), 4000);
+}, 250);
 </script>
 
 </body>
