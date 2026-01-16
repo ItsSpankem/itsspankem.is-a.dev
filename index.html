@@ -24,6 +24,7 @@ body {
   background:black;
   color:var(--text);
   overflow:hidden;
+  cursor: url('cursor.png'), auto; /* custom cursor */
 }
 
 /* BACKGROUND */
@@ -60,7 +61,7 @@ body {
   z-index:20; cursor:pointer; transition:opacity 1s ease;
 }
 .enter.fade { opacity:0; pointer-events:none; }
-.enter h1 { font-size:44px; color:#ff2b2b; text-shadow:0 0 10px rgba(255,0,0,.3); }
+.enter h1 { font-size:44px; color:#ff2b2b; text-shadow:0 0 10px rgba(255,0,0,.3); font-family:Arial, sans-serif; }
 
 /* CENTER CARD */
 .center { position:fixed; inset:0; display:flex; justify-content:center; align-items:center; }
@@ -87,11 +88,18 @@ body {
   display:inline-block;
 }
 
-/* FIRE ORBIT SPARKLES */
+/* FIRE SPARKLES FLOATING */
 .fire {
   position:absolute; font-size:10px; color:#ff6a00;
   text-shadow:0 0 6px rgba(255,100,0,0.9),0 0 14px rgba(255,0,0,0.6);
   pointer-events:none;
+  animation: floatFire 2.8s ease-in-out infinite;
+}
+
+@keyframes floatFire {
+  0% { transform: translate(0,0) scale(0.6); opacity:0.9; }
+  50% { transform: translate(calc(-5px + 10px*var(--rx)), calc(-5px + 10px*var(--ry))) scale(1); opacity:0.6; }
+  100% { transform: translate(0,0) scale(0.6); opacity:0.9; }
 }
 
 /* SOCIALS */
@@ -188,14 +196,14 @@ fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`)
   const status=data.discord_status||"offline";
   const avatar=document.getElementById("avatar");
 
-  let avatarURL;
+  // Avatar fallback
   if(user.avatar){
     const format=user.avatar.startsWith("a_")?"gif":"png";
-    avatarURL=`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.${format}?size=256`;
+    avatar.src=`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.${format}?size=256`;
   } else {
-    avatarURL=`https://cdn.discordapp.com/embed/avatars/${user.discriminator%5}.png`;
+    avatar.src="ItsSpankemV2.png"; // fallback image
   }
-  avatar.src=avatarURL;
+
   avatar.classList.remove("online","idle","dnd","offline");
   avatar.classList.add(status);
 
@@ -220,26 +228,26 @@ fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`)
   } else document.getElementById("spotify").textContent="Spotify: Not playing";
 });
 
-// Circular Fire Sparkles
+// Smooth floating fire sparkles near username
 const name=document.getElementById("name");
-function createOrbitSparkle(){
+function createFloatingSparkle(){
   const spark=document.createElement("div");
   spark.className="fire";
   spark.textContent=["✦","✧","•","⋆"][Math.floor(Math.random()*4)];
 
   const rect=name.getBoundingClientRect();
-  const radius=Math.max(rect.width,rect.height)/2 + 10;
-  const angle=Math.random()*Math.PI*2;
-  const cx=rect.width/2, cy=rect.height/2;
-  const x=cx + radius*Math.cos(angle);
-  const y=cy + radius*Math.sin(angle);
-  spark.style.left=x+"px";
-  spark.style.top=y+"px";
+  const offsetX = (Math.random()-0.5)*rect.width*1.1; // spread around
+  const offsetY = (Math.random()-0.5)*rect.height*1.1;
+  spark.style.left=(rect.width/2 + offsetX)+"px";
+  spark.style.top=(rect.height/2 + offsetY)+"px";
+
+  spark.style.setProperty("--rx", Math.random());
+  spark.style.setProperty("--ry", Math.random());
 
   name.appendChild(spark);
   setTimeout(()=>spark.remove(),3000);
 }
-setInterval(createOrbitSparkle,150);
+setInterval(createFloatingSparkle,150);
 
 // Anti Inspect
 document.addEventListener("contextmenu",e=>e.preventDefault());
