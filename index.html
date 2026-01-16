@@ -7,32 +7,23 @@
 
 <meta name="description" content="Official Bio — @ItsSpankem">
 
-<!-- ANIMATED FAVICON -->
-<link id="favicon" rel="icon" href="data:image/svg+xml,
-<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
-<circle cx='50' cy='50' r='45' fill='red'/>
-</svg>">
+<link rel="icon" id="favicon">
 
 <style>
 :root {
-  --accent: red;
-  --overlay: rgba(0,0,0,0.65);
+  --accent: #ff2b2b;
   --glass: rgba(20,20,20,0.55);
+  --overlay: rgba(0,0,0,0.65);
   --text: #fff;
 }
 
-* {
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
+* { margin:0; padding:0; box-sizing:border-box; }
 
 body {
   font-family: Arial, sans-serif;
   background:black;
   color:var(--text);
   overflow:hidden;
-  user-select:none;
 }
 
 /* BACKGROUND */
@@ -46,7 +37,6 @@ body {
   transition:transform 0.15s linear;
 }
 
-/* OVERLAY */
 .overlay {
   position:fixed;
   inset:0;
@@ -54,7 +44,7 @@ body {
   z-index:-2;
 }
 
-/* ENTER SCREEN */
+/* ENTER */
 .enter {
   position:fixed;
   inset:0;
@@ -64,25 +54,15 @@ body {
   align-items:center;
   z-index:20;
   cursor:pointer;
-  transition:opacity 1.1s ease;
+  transition:opacity 1s ease;
 }
 
-.enter.fade {
-  opacity:0;
-  pointer-events:none;
-}
+.enter.fade { opacity:0; pointer-events:none; }
 
 .enter h1 {
   font-size:44px;
   color:#ff2b2b;
-  text-shadow:
-    0 0 6px rgba(255,0,0,0.6),
-    0 0 14px rgba(255,0,0,0.4);
-  animation:pulse 2.5s infinite;
-}
-
-.enter.flicker h1 {
-  animation:flicker 3s infinite;
+  text-shadow:0 0 10px rgba(255,0,0,.5);
 }
 
 /* CENTER */
@@ -94,68 +74,84 @@ body {
   align-items:center;
 }
 
-/* GLASS CARD */
 .card {
   width:360px;
   padding:34px;
   border-radius:24px;
   backdrop-filter:blur(16px);
-  background:linear-gradient(135deg, rgba(255,255,255,0.08), var(--glass));
-  box-shadow:
-    0 0 35px rgba(0,0,0,0.6),
-    inset 0 0 25px rgba(255,255,255,0.04);
-  animation:breath 6s infinite;
+  background:linear-gradient(135deg, rgba(255,255,255,.08), var(--glass));
   text-align:center;
+}
+
+/* DISCORD AVATAR */
+.avatar {
+  width:90px;
+  height:90px;
+  border-radius:50%;
+  border:2px solid var(--accent);
+  margin:0 auto 15px;
+  box-shadow:0 0 25px rgba(255,0,0,.6);
 }
 
 /* USERNAME */
 .username {
-  font-size:40px;
-  opacity:0.72;
-  margin-bottom:20px;
-  text-shadow:0 0 18px rgba(255,0,0,0.7);
+  position:relative;
+  font-size:38px;
+  opacity:.75;
+  margin-bottom:15px;
+}
+
+/* FIRE SPARKLES */
+.fire {
+  position:absolute;
+  font-size:10px;
+  color:#ff7b00;
+  animation:fire 3s linear forwards;
+  pointer-events:none;
+}
+
+@keyframes fire {
+  from { transform:translateY(0) scale(.6); opacity:1; }
+  to { transform:translateY(-80px) scale(1); opacity:0; }
 }
 
 /* SOCIALS */
 .socials a {
-  display:block;
+  display:flex;
+  align-items:center;
+  gap:10px;
   margin:12px 0;
   padding:14px;
   border-radius:14px;
   text-decoration:none;
   color:white;
-  background:rgba(0,0,0,0.45);
-  border:1px solid rgba(255,0,0,0.55);
-  box-shadow:0 0 14px rgba(255,0,0,0.35);
-  transition:0.3s ease;
+  background:rgba(0,0,0,.45);
+  border:1px solid rgba(255,0,0,.55);
+  transition:.3s;
 }
 
-.socials a:hover {
-  transform:scale(1.06);
-  box-shadow:0 0 28px rgba(255,0,0,0.9);
+.socials a:hover { transform:scale(1.06); }
+
+.socials svg { width:20px; height:20px; }
+
+/* SPOTIFY */
+.spotify {
+  margin-top:15px;
+  font-size:13px;
+  opacity:.75;
 }
 
-/* FOOTER INFO */
+/* FOOTER */
 .footer {
-  margin-top:18px;
+  margin-top:12px;
   font-size:12px;
-  opacity:0.6;
+  opacity:.6;
 }
 
-/* ANIMS */
-@keyframes pulse {
-  0% { opacity:0.65 }
-  100% { opacity:1 }
-}
-
-@keyframes flicker {
-  0%,19%,22%,63%,100% {opacity:1}
-  20%,21%,62% {opacity:0.45}
-}
-
-@keyframes breath {
-  0%,100% { box-shadow:0 0 30px rgba(255,0,0,0.45) }
-  50% { box-shadow:0 0 55px rgba(255,0,0,0.75) }
+/* MOBILE POLISH */
+@media (max-width:480px){
+  .card { width:92%; padding:26px; }
+  .username { font-size:32px; }
 }
 </style>
 </head>
@@ -165,7 +161,6 @@ body {
 <div class="bg" id="bg"></div>
 <div class="overlay"></div>
 
-<!-- ENTER -->
 <div class="enter" id="enter">
   <h1>Click To Enter</h1>
 </div>
@@ -174,86 +169,60 @@ body {
 
 <div class="center">
   <div class="card">
-    <div class="username">@ItsSpankem</div>
+    <img id="avatar" class="avatar">
+    <div class="username" id="name">@ItsSpankem</div>
 
     <div class="socials">
-      <a href="https://www.instagram.com/bloodyhoundjefferyfto/?hl=en">Instagram</a>
-      <a href="https://www.tiktok.com/@itsspankem">TikTok</a>
-      <a href="https://www.youtube.com/@obndracc">YouTube</a>
-      <a href="https://discord.gg/R77PDTjb">Discord</a>
-      <a href="https://www.twitch.tv/obndracc">Twitch</a>
+      <a href="https://instagram.com"><svg viewBox="0 0 24 24"><path fill="white" d="M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5z"/></svg>Instagram</a>
+      <a href="https://tiktok.com"><svg viewBox="0 0 24 24"><path fill="white" d="M12 2v14a4 4 0 11-4-4"/></svg>TikTok</a>
+      <a href="https://youtube.com"><svg viewBox="0 0 24 24"><path fill="white" d="M10 15l5-3-5-3z"/></svg>YouTube</a>
+      <a href="https://discord.gg"><svg viewBox="0 0 24 24"><path fill="white" d="M4 4h16v16H4z"/></svg>Discord</a>
+      <a href="https://twitch.tv"><svg viewBox="0 0 24 24"><path fill="white" d="M5 3h14v10l-4 4h-5l-3 3z"/></svg>Twitch</a>
     </div>
 
-    <div class="footer">
-      Visits: <span id="visits">0</span>
-    </div>
+    <div class="spotify" id="spotify">Spotify: Not playing</div>
+    <div class="footer">Visits: <span id="visits">0</span></div>
   </div>
 </div>
 
 <script>
+const DISCORD_ID = "1361002991246901524";
+
 /* ENTER */
-const enter=document.getElementById("enter");
-const music=document.getElementById("music");
-setTimeout(()=>enter.classList.add("flicker"),4000);
-
-enter.addEventListener("click",()=>{
+enter.onclick=()=>{
   enter.classList.add("fade");
-  music.volume=0;
+  music.volume=.6;
   music.play();
-  let v=0;
-  const fade=setInterval(()=>{
-    if(v>=0.6) clearInterval(fade);
-    music.volume=v;
-    v+=0.02;
-  },120);
-});
+};
 
-/* VISITOR COUNTER */
-let visits=localStorage.getItem("visits")||0;
-visits++;
-localStorage.setItem("visits",visits);
-document.getElementById("visits").textContent=visits;
-
-/* IP REGION GLOW */
-fetch("https://ipapi.co/json/")
+/* LANYARD DISCORD + SPOTIFY */
+fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`)
 .then(r=>r.json())
 .then(d=>{
-  if(d.continent_code==="EU") document.documentElement.style.setProperty("--accent","#7b6cff");
-  if(d.continent_code==="NA") document.documentElement.style.setProperty("--accent","red");
-  if(d.continent_code==="AS") document.documentElement.style.setProperty("--accent","#ff4fa3");
-});
+  const u=d.data.discord_user;
+  avatar.src=`https://cdn.discordapp.com/avatars/${u.id}/${u.avatar}.png?size=256`;
 
-/* PARALLAX */
-document.addEventListener("mousemove",e=>{
-  const x=(e.clientX/window.innerWidth-0.5)*18;
-  const y=(e.clientY/window.innerHeight-0.5)*18;
-  document.getElementById("bg").style.transform=
-    `scale(1.08) translate(${x}px,${y}px)`;
-});
-
-/* ANIMATED FAVICON */
-let f=0;
-setInterval(()=>{
-  f=!f;
-  document.getElementById("favicon").href=
-  `data:image/svg+xml,
-  <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
-  <circle cx='50' cy='50' r='45' fill='${f?"#ff2b2b":"#b30000"}'/>
-  </svg>`;
-},800);
-
-/* ANTI INSPECT */
-document.addEventListener("contextmenu",e=>e.preventDefault());
-document.addEventListener("keydown",e=>{
-  if(
-    e.key==="F12" ||
-    (e.ctrlKey && e.shiftKey && ["I","J","C"].includes(e.key))
-  ){
-    e.preventDefault();
-    console.clear();
-    console.log("%cNice try 👀","color:red;font-size:20px");
+  if(d.data.spotify){
+    document.getElementById("spotify").textContent=
+      `Spotify: ${d.data.spotify.song} – ${d.data.spotify.artist}`;
   }
 });
+
+/* GLOBAL VISITOR COUNTER */
+fetch("https://api.countapi.xyz/hit/itsspankem/visits")
+.then(r=>r.json())
+.then(d=>document.getElementById("visits").textContent=d.value);
+
+/* FIRE SPARKLES */
+setInterval(()=>{
+  const f=document.createElement("div");
+  f.className="fire";
+  f.textContent="✦";
+  f.style.left=Math.random()*120+"px";
+  f.style.top="20px";
+  document.getElementById("name").appendChild(f);
+  setTimeout(()=>f.remove(),3000);
+},220);
 </script>
 
 </body>
