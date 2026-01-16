@@ -236,4 +236,21 @@ const type=setInterval(()=>{
 /* SPARKLES */
 setInterval(()=>{
   const s=document.createElement("div");
-  s.cl
+  s.className="sparkle";
+  s.textContent=["✦","✧","⋆","•"][Math.floor(Math.random()*4)];
+  s.style.left=Math.random()*120+"px";
+  s.style.top=Math.random()*40+"px";
+  typed.appendChild(s);
+  setTimeout(()=>s.remove(),3600);
+},260);
+
+/* PARALLAX */
+document.addEventListener("mousemove",e=>{
+  const x=(e.clientX/window.innerWidth-0.5)*20;
+  const y=(e.clientY/window.innerHeight-0.5)*20;
+  bg.style.transform=`scale(1.1) translate(${x}px,${y}px)`;
+});
+</script>
+
+</body>
+</html>
