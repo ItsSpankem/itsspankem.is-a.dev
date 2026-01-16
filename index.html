@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <title>@ItsSpankem</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
 <meta name="description" content="Official Bio — @ItsSpankem">
 
+<!-- Animated Favicon -->
 <link rel="icon" id="favicon">
 
 <style>
@@ -37,6 +37,24 @@ body {
   transition:transform 0.15s linear;
 }
 
+/* SPOTIFY BACKGROUND */
+.spotify-bg {
+  position: fixed;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.18;
+  filter: blur(14px) saturate(1.4);
+  z-index: -6;
+  animation: slowZoom 18s linear infinite;
+}
+
+@keyframes slowZoom {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.15); }
+}
+
+/* OVERLAY */
 .overlay {
   position:fixed;
   inset:0;
@@ -44,7 +62,7 @@ body {
   z-index:-2;
 }
 
-/* ENTER */
+/* ENTER SCREEN */
 .enter {
   position:fixed;
   inset:0;
@@ -65,7 +83,7 @@ body {
   text-shadow:0 0 10px rgba(255,0,0,.5);
 }
 
-/* CENTER */
+/* CENTER CARD */
 .center {
   position:fixed;
   inset:0;
@@ -93,16 +111,18 @@ body {
   box-shadow:0 0 25px rgba(255,0,0,.6);
 }
 
+/* Discord status glow */
+.avatar.online { box-shadow:0 0 30px rgba(0,255,120,0.9); border-color:#00ff78; }
+.avatar.idle { box-shadow:0 0 30px rgba(255,190,60,0.9); border-color:#ffbe3c; }
+.avatar.dnd { box-shadow:0 0 30px rgba(255,60,60,0.9); border-color:#ff3c3c; }
+.avatar.offline { box-shadow:0 0 18px rgba(150,150,150,0.6); border-color:#999; }
+
 /* USERNAME */
 .username {
   position: relative;
   font-size: 38px;
   margin-bottom: 18px;
-
-  /* SEE-THROUGH TEXT */
   color: rgba(255,255,255,0.25);
-
-  /* UNDERGLOW + RED GLOW */
   text-shadow:
     0 0 10px rgba(255,0,0,0.45),
     0 0 22px rgba(255,0,0,0.55),
@@ -114,9 +134,7 @@ body {
   position: absolute;
   font-size: 10px;
   color: #ff6a00;
-  text-shadow:
-    0 0 6px rgba(255,100,0,0.9),
-    0 0 14px rgba(255,0,0,0.6);
+  text-shadow: 0 0 6px rgba(255,100,0,0.9), 0 0 14px rgba(255,0,0,0.6);
   animation: fireFloat 3s ease-out forwards;
   pointer-events: none;
 }
@@ -124,11 +142,6 @@ body {
 @keyframes fireFloat {
   from { transform: translateY(0) scale(0.6); opacity: 1; }
   to { transform: translateY(-90px) scale(1); opacity: 0; }
-}
-
-@keyframes fire {
-  from { transform:translateY(0) scale(.6); opacity:1; }
-  to { transform:translateY(-80px) scale(1); opacity:0; }
 }
 
 /* SOCIALS */
@@ -169,51 +182,16 @@ body {
   .card { width:92%; padding:26px; }
   .username { font-size:32px; }
 }
-/* DISCORD STATUS GLOW */
-.avatar.online {
-  box-shadow: 0 0 30px rgba(0,255,120,0.9);
-  border-color: #00ff78;
-}
-
-.avatar.idle {
-  box-shadow: 0 0 30px rgba(255,190,60,0.9);
-  border-color: #ffbe3c;
-}
-
-.avatar.dnd {
-  box-shadow: 0 0 30px rgba(255,60,60,0.9);
-  border-color: #ff3c3c;
-}
-
-.avatar.offline {
-  box-shadow: 0 0 18px rgba(150,150,150,0.6);
-  border-color: #999;
-}
-/* SPOTIFY BACKGROUND */
-.spotify-bg {
-  position: fixed;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  opacity: 0.18;
-  filter: blur(14px) saturate(1.4);
-  z-index: -6;
-  animation: slowZoom 18s linear infinite;
-}
-
-@keyframes slowZoom {
-  0% { transform: scale(1); }
-  100% { transform: scale(1.15); }
-}
-  
 </style>
 </head>
 
 <body>
+
 <div id="spotifyBg" class="spotify-bg"></div>
 <div class="bg" id="bg"></div>
 <div class="overlay"></div>
 
+<!-- ENTER SCREEN -->
 <div class="enter" id="enter">
   <h1>Click To Enter</h1>
 </div>
@@ -239,91 +217,108 @@ body {
 </div>
 
 <script>
-// -------------------------------
-// YOUR DISCORD ID
+// Discord ID
 const DISCORD_ID = "1361002991246901524";
 
-// -------------------------------
-// SPOTIFY BACKGROUND FUNCTION
-function setSpotifyBackground(url) {
-    const bg = document.getElementById("spotifyBg");
-    bg.style.backgroundImage = `url(${url})`;
-}
+// Animated Favicon
+let f=0;
+setInterval(()=>{
+  f=!f;
+  document.getElementById("favicon").href=
+  `data:image/svg+xml,
+  <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
+  <circle cx='50' cy='50' r='45' fill='${f?"#ff2b2b":"#b30000"}'/>
+  </svg>`;
+},800);
 
-// -------------------------------
-// FETCH DISCORD AVATAR, STATUS, SPOTIFY
-fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`)
-.then(r => r.json())
-.then(d => {
-    const data = d.data;
-    const user = data.discord_user;
-    const status = data.discord_status || "offline";
-
-    const avatar = document.getElementById("avatar");
-
-    // handle default / animated avatar
-    let avatarURL;
-    if(user.avatar){
-        const format = user.avatar.startsWith("a_") ? "gif" : "png";
-        avatarURL = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.${format}?size=256`;
-    } else {
-        avatarURL = `https://cdn.discordapp.com/embed/avatars/${user.discriminator % 5}.png`;
-    }
-    avatar.src = avatarURL;
-
-    avatar.classList.remove("online","idle","dnd","offline");
-    avatar.classList.add(status);
-
-    // SPOTIFY
-    if(data.spotify){
-        const s = data.spotify;
-        document.getElementById("spotify").textContent =
-            `Spotify: ${s.song} — ${s.artist}`;
-        setSpotifyBackground(s.album_art_url);
-    } else {
-        document.getElementById("spotify").textContent = "Spotify: Not playing";
-    }
+// Click to Enter
+const enter=document.getElementById("enter");
+const music=document.getElementById("music");
+enter.addEventListener("click",()=>{
+  enter.classList.add("fade");
+  music.volume=0;
+  music.play();
+  let v=0;
+  const fade=setInterval(()=>{
+    if(v>=0.6) clearInterval(fade);
+    music.volume=v;
+    v+=0.02;
+  },120);
 });
 
-// -------------------------------
-// FIRE SPARKLES AROUND USERNAME
-const name = document.getElementById("name");
+// Visitor Counter (CountAPI)
+fetch("https://api.countapi.xyz/hit/itsspankem/visits")
+.then(r=>r.json())
+.then(d=>document.getElementById("visits").textContent=d.value);
 
-// Function to create a single sparkle
-function createSparkle() {
-    const spark = document.createElement("div");
-    spark.className = "fire";
-    spark.textContent = ["✦","✧","•","⋆"][Math.floor(Math.random()*4)];
-
-    // get the exact position and size of the username
-    const rect = name.getBoundingClientRect();
-    const edge = Math.floor(Math.random() * 4); // 0=top,1=bottom,2=left,3=right
-
-    let x, y;
-    if(edge === 0){ // top
-        x = Math.random() * rect.width;
-        y = -6;
-    } else if(edge === 1){ // bottom
-        x = Math.random() * rect.width;
-        y = rect.height + 6;
-    } else if(edge === 2){ // left
-        x = -6;
-        y = Math.random() * rect.height;
-    } else { // right
-        x = rect.width + 6;
-        y = Math.random() * rect.height;
-    }
-
-    spark.style.left = x + "px";
-    spark.style.top = y + "px";
-
-    // append to username and remove after 3s
-    name.appendChild(spark);
-    setTimeout(()=>spark.remove(), 3000);
+// Spotify Background function
+function setSpotifyBackground(url){
+  document.getElementById("spotifyBg").style.backgroundImage=`url(${url})`;
 }
 
-// create sparkles every 220ms
-setInterval(createSparkle, 220);
+// Discord + Spotify fetch
+fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`)
+.then(r=>r.json())
+.then(d=>{
+  const data = d.data;
+  const user = data.discord_user;
+  const status = data.discord_status || "offline";
+
+  const avatar = document.getElementById("avatar");
+
+  // default & animated avatar
+  let avatarURL;
+  if(user.avatar){
+    const format = user.avatar.startsWith("a_") ? "gif" : "png";
+    avatarURL = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.${format}?size=256`;
+  } else {
+    avatarURL = `https://cdn.discordapp.com/embed/avatars/${user.discriminator % 5}.png`;
+  }
+  avatar.src = avatarURL;
+  avatar.classList.remove("online","idle","dnd","offline");
+  avatar.classList.add(status);
+
+  // Spotify
+  if(data.spotify){
+    const s = data.spotify;
+    document.getElementById("spotify").textContent=`Spotify: ${s.song} — ${s.artist}`;
+    setSpotifyBackground(s.album_art_url);
+  } else {
+    document.getElementById("spotify").textContent="Spotify: Not playing";
+  }
+});
+
+// Fire Sparkles
+const name = document.getElementById("name");
+function createSparkle(){
+  const spark=document.createElement("div");
+  spark.className="fire";
+  spark.textContent=["✦","✧","•","⋆"][Math.floor(Math.random()*4)];
+
+  const rect=name.getBoundingClientRect();
+  const edge=Math.floor(Math.random()*4);
+  let x,y;
+  if(edge===0){ x=Math.random()*rect.width; y=-6; }
+  else if(edge===1){ x=Math.random()*rect.width; y=rect.height+6; }
+  else if(edge===2){ x=-6; y=Math.random()*rect.height; }
+  else { x=rect.width+6; y=Math.random()*rect.height; }
+
+  spark.style.left=x+"px";
+  spark.style.top=y+"px";
+  name.appendChild(spark);
+  setTimeout(()=>spark.remove(),3000);
+}
+setInterval(createSparkle,220);
+
+// Anti Inspect
+document.addEventListener("contextmenu",e=>e.preventDefault());
+document.addEventListener("keydown",e=>{
+  if(e.key==="F12" || (e.ctrlKey && e.shiftKey && ["I","J","C"].includes(e.key))){
+    e.preventDefault();
+    console.clear();
+    console.log("%cNice try 👀","color:red;font-size:20px");
+  }
+});
 </script>
 
 </body>
