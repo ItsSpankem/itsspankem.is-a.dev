@@ -153,11 +153,48 @@ body {
   .card { width:92%; padding:26px; }
   .username { font-size:32px; }
 }
+/* DISCORD STATUS GLOW */
+.avatar.online {
+  box-shadow: 0 0 30px rgba(0,255,120,0.9);
+  border-color: #00ff78;
+}
+
+.avatar.idle {
+  box-shadow: 0 0 30px rgba(255,190,60,0.9);
+  border-color: #ffbe3c;
+}
+
+.avatar.dnd {
+  box-shadow: 0 0 30px rgba(255,60,60,0.9);
+  border-color: #ff3c3c;
+}
+
+.avatar.offline {
+  box-shadow: 0 0 18px rgba(150,150,150,0.6);
+  border-color: #999;
+}
+/* SPOTIFY BACKGROUND */
+.spotify-bg {
+  position: fixed;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.18;
+  filter: blur(14px) saturate(1.4);
+  z-index: -6;
+  animation: slowZoom 18s linear infinite;
+}
+
+@keyframes slowZoom {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.15); }
+}
+  
 </style>
 </head>
 
 <body>
-
+<div id="spotifyBg" class="spotify-bg"></div>
 <div class="bg" id="bg"></div>
 <div class="overlay"></div>
 
@@ -196,17 +233,31 @@ enter.onclick=()=>{
 };
 
 /* LANYARD DISCORD + SPOTIFY */
-fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`)
-.then(r=>r.json())
-.then(d=>{
-  const u=d.data.discord_user;
-  avatar.src=`https://cdn.discordapp.com/avatars/${u.id}/${u.avatar}.png?size=256`;
+fetch(`https://api.lanyard.rest/v1/users/${1361002991246901524}`)
+.then(r => r.json())
+.then(d => {
+  const user = d.data.discord_user;
+  const status = d.data.discord_status || "offline";
 
-  if(d.data.spotify){
-    document.getElementById("spotify").textContent=
-      `Spotify: ${d.data.spotify.song} – ${d.data.spotify.artist}`;
+  const avatar = document.getElementById("avatar");
+  avatar.src = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=256`;
+
+  avatar.classList.remove("online","idle","dnd","offline");
+  avatar.classList.add(status);
+
+  // SPOTIFY
+  if (d.data.spotify) {
+    const s = d.data.spotify;
+    document.getElementById("spotify").textContent =
+      `Spotify: ${s.song} — ${s.artist}`;
+
+    setSpotifyBackground(s.album_art_url);
   }
 });
+function setSpotifyBackground(url) {
+  const bg = document.getElementById("spotifyBg");
+  bg.style.backgroundImage = `url(${url})`;
+}
 
 /* GLOBAL VISITOR COUNTER */
 fetch("https://api.countapi.xyz/hit/itsspankem/visits")
