@@ -5,270 +5,235 @@
 <title>@ItsSpankem</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
+<!-- SEO / PREVIEW -->
+<meta name="description" content="Official Bio Link — @ItsSpankem">
+<meta property="og:title" content="@ItsSpankem">
+<meta property="og:type" content="website">
+
+<!-- HORSEMEN FONT -->
 <style>
+@font-face {
+  font-family: "Horsemen";
+  src: url("Horsemen.ttf");
+}
+</style>
+
+<style>
+/* 🖕 MIDDLE FINGER CURSOR */
+* {
+  cursor: url("data:image/svg+xml;utf8,\
+  <svg xmlns='http://www.w3.org/2000/svg' width='48' height='48'>\
+  <text y='38' font-size='38'>🖕</text></svg>") 16 16, auto;
+}
+
 :root {
+  --glass: rgba(20,20,20,0.55);
   --overlay: rgba(0,0,0,0.65);
-  --card: rgba(20,20,20,0.75);
-  --card-light: rgba(200,200,200,0.85);
+  --accent: red;
   --text: #fff;
 }
 
-body.light {
-  --overlay: rgba(255,255,255,0.6);
-  --text: #000;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+* { margin:0; padding:0; box-sizing:border-box; }
 
 body {
   font-family: Arial, sans-serif;
-  background: black;
-  color: var(--text);
-  overflow: hidden;
+  background:black;
+  color:var(--text);
+  overflow:hidden;
 }
 
-/* BACKGROUND */
+/* BACKGROUND PARALLAX */
 .bg {
-  position: fixed;
-  inset: 0;
-  background: url("ItsSpankemV2.png") center/cover no-repeat;
-  filter: blur(5px);
-  transform: scale(1.05);
-  z-index: -3;
+  position:fixed;
+  inset:0;
+  background:url("ItsSpankemV2.png") center/cover no-repeat;
+  filter:blur(7px);
+  transform:scale(1.1);
+  transition:transform 0.15s linear;
+  z-index:-5;
 }
 
+/* VIGNETTE */
 .overlay {
-  position: fixed;
-  inset: 0;
-  background: var(--overlay);
-  z-index: -2;
-}
-
-/* GRAIN */
-.grain {
-  position: fixed;
-  inset: 0;
-  background-image: url("https://grainy-gradients.vercel.app/noise.svg");
-  opacity: 0.15;
-  pointer-events: none;
-  z-index: 5;
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(circle at center, rgba(0,0,0,0.2), var(--overlay));
+  z-index:-4;
 }
 
 /* ENTER SCREEN */
 .enter {
-  position: fixed;
-  inset: 0;
-  background: black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 20;
-  cursor: pointer;
-  transition: opacity 1.2s ease;
+  position:fixed;
+  inset:0;
+  background:black;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:50;
+  cursor:pointer;
+  transition:opacity 1.3s ease;
 }
 
-.enter.fade {
-  opacity: 0;
-  pointer-events: none;
-}
+.enter.fade { opacity:0; pointer-events:none; }
 
 .enter h1 {
-  color: red;
-  font-size: 42px;
-  animation: pulse 2s infinite;
+  font-family:"Horsemen", serif;
+  font-size:58px;
+  color:red;
+  text-shadow:
+    0 0 15px rgba(255,0,0,1),
+    0 0 40px rgba(255,0,0,0.8),
+    0 0 90px rgba(255,0,0,0.6);
 }
 
-/* CENTER CONTENT */
+.enter.flicker h1 {
+  animation:flicker 2.6s infinite;
+}
+
+/* CENTER */
 .center {
-  position: fixed;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+  position:fixed;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+/* GLASS CARD */
+.card {
+  width:360px;
+  padding:38px;
+  border-radius:26px;
+  backdrop-filter:blur(18px);
+  background:linear-gradient(135deg, rgba(255,255,255,0.08), var(--glass));
+  box-shadow:
+    0 0 45px rgba(0,0,0,0.7),
+    inset 0 0 35px rgba(255,255,255,0.05);
+  animation:breath 6s infinite ease-in-out;
 }
 
 /* USERNAME */
 .username {
-  position: relative;
-  font-size: 42px;
-  margin-bottom: 25px;
-  opacity: 0.72; /* slightly see-through */
-  text-shadow: 0 0 20px rgba(255,0,0,0.8);
+  font-size:40px;
+  margin-bottom:10px;
+  opacity:0.75;
+  text-shadow:0 0 30px rgba(255,0,0,0.9);
 }
 
-/* SPARKLES (guns.lol style) */
+/* VERIFIED BADGE */
+.badge {
+  display:inline-block;
+  margin-left:8px;
+  color:#3ea6ff;
+  text-shadow:0 0 12px rgba(62,166,255,0.8);
+}
+
+/* SOCIALS */
+.socials a {
+  display:block;
+  margin:14px 0;
+  padding:14px;
+  border-radius:16px;
+  text-decoration:none;
+  color:white;
+  background:rgba(0,0,0,0.45);
+  border:1px solid rgba(255,0,0,0.6);
+  box-shadow:0 0 18px rgba(255,0,0,0.4);
+  transition:0.35s ease;
+}
+
+.socials a:hover {
+  transform:scale(1.07) rotateX(6deg);
+  box-shadow:0 0 35px rgba(255,0,0,1);
+}
+
+/* SPARKLES */
 .sparkle {
-  position: absolute;
-  pointer-events: none;
-  font-size: 9px;
-  color: white;
-  opacity: 0.85;
-  filter: drop-shadow(0 0 6px rgba(255,255,255,0.9));
-  animation: sparkleFloat 3.8s ease-out forwards;
+  position:absolute;
+  pointer-events:none;
+  font-size:10px;
+  opacity:0.9;
+  animation:sparkle 3.6s forwards;
 }
 
-@keyframes sparkleFloat {
-  from {
-    transform: translateY(0) scale(0.6);
-    opacity: 0.9;
-  }
-  to {
-    transform: translateY(-90px) scale(1);
-    opacity: 0;
-  }
+@keyframes sparkle {
+  from { transform:translateY(0) scale(0.6); opacity:1 }
+  to { transform:translateY(-90px) scale(1); opacity:0 }
 }
 
-/* SOCIAL BUTTONS */
-a {
-  width: 320px;
-  margin: 10px;
-  padding: 15px;
-  text-decoration: none;
-  color: white;
-  background: var(--card);
-  border-radius: 12px;
-  border: 2px solid red;
-  box-shadow: 0 0 15px rgba(255,0,0,0.6);
-  transition: 0.3s;
+/* ANIMATIONS */
+@keyframes flicker {
+  0%,18%,22%,60%,63%,100% {opacity:1}
+  20%,21%,61%,62% {opacity:0.4}
 }
 
-body.light a {
-  background: var(--card-light);
-  color: black;
-}
-
-a:hover {
-  transform: scale(1.06);
-}
-
-/* VOLUME */
-.volume {
-  position: fixed;
-  top: 15px;
-  left: 15px;
-  background: var(--card);
-  padding: 10px;
-  border-radius: 10px;
-  z-index: 10;
-}
-
-/* TOGGLE */
-.toggle {
-  position: fixed;
-  top: 15px;
-  right: 15px;
-  cursor: pointer;
-  background: var(--card);
-  padding: 10px;
-  border-radius: 10px;
-  z-index: 10;
-}
-
-/* ANIMS */
-@keyframes pulse {
-  0% { opacity: 0.6; }
-  100% { opacity: 1; }
+@keyframes breath {
+  0%,100% { box-shadow:0 0 40px rgba(255,0,0,0.45) }
+  50% { box-shadow:0 0 65px rgba(255,0,0,0.75) }
 }
 </style>
 </head>
 
 <body>
 
-<div class="bg"></div>
+<div class="bg" id="bg"></div>
 <div class="overlay"></div>
-<div class="grain"></div>
 
 <!-- ENTER -->
 <div class="enter" id="enter">
   <h1>Click To Enter</h1>
 </div>
 
-<!-- AUDIO -->
 <audio id="music" src="music.mp3" loop></audio>
 
-<!-- UI -->
-<div class="volume">
-  <input type="range" id="vol" min="0" max="100" value="0">
-</div>
-
-<div class="toggle" onclick="toggleMode()">🌗</div>
-
-<!-- CONTENT -->
 <div class="center">
-  <div class="username" id="name">@ItsSpankem</div>
+  <div class="card">
+    <div class="username" id="name">
+      <span id="typed"></span><span class="badge">✔</span>
+    </div>
 
-  <a href="https://www.instagram.com/bloodyhoundjefferyfto/?hl=en">Instagram</a>
-  <a href="https://www.tiktok.com/@itsspankem">TikTok</a>
-  <a href="https://www.youtube.com/@obndracc">YouTube</a>
-  <a href="https://discord.gg/R77PDTjb">Discord</a>
-  <a href="https://www.twitch.tv/obndracc">Twitch</a>
+    <div class="socials">
+      <a href="https://www.instagram.com/bloodyhoundjefferyfto/?hl=en">Instagram</a>
+      <a href="https://www.tiktok.com/@itsspankem">TikTok</a>
+      <a href="https://www.youtube.com/@obndracc">YouTube</a>
+      <a href="https://discord.gg/R77PDTjb">Discord</a>
+      <a href="https://www.twitch.tv/obndracc">Twitch</a>
+    </div>
+  </div>
 </div>
 
 <script>
 const enter = document.getElementById("enter");
 const music = document.getElementById("music");
-const vol = document.getElementById("vol");
-const name = document.getElementById("name");
+const typed = document.getElementById("typed");
+const bg = document.getElementById("bg");
 
+/* ENTER FLICKER */
+setTimeout(()=>enter.classList.add("flicker"), 4200);
+
+/* ENTER CLICK */
 enter.onclick = () => {
   enter.classList.add("fade");
   music.volume = 0;
   music.play();
-
   let v = 0;
-  let fadeIn = setInterval(() => {
-    if (v >= 0.6) clearInterval(fadeIn);
-    music.volume = v;
-    v += 0.02;
-  }, 120);
+  const fade = setInterval(()=>{
+    if(v>=0.6) clearInterval(fade);
+    music.volume=v;
+    v+=0.02;
+  },120);
 };
 
-vol.oninput = () => music.volume = vol.value / 100;
+/* TYPE EFFECT */
+const text="@ItsSpankem";
+let i=0;
+const type=setInterval(()=>{
+  typed.textContent+=text[i++];
+  if(i>=text.length) clearInterval(type);
+},110);
 
-function toggleMode() {
-  document.body.classList.toggle("light");
-}
-
-/* WHITE SPARKLES AROUND ENTIRE NAME */
-setInterval(() => {
-  const s = document.createElement("div");
-  s.className = "sparkle";
-
-  const symbols = ["✦", "✧", "•", "⋆"];
-  s.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-
-  const rect = name.getBoundingClientRect();
-  const edge = Math.floor(Math.random() * 4);
-
-  let x = 0, y = 0;
-
-  if (edge === 0) {
-    x = Math.random() * rect.width;
-    y = -6;
-  } else if (edge === 1) {
-    x = Math.random() * rect.width;
-    y = rect.height + 6;
-  } else if (edge === 2) {
-    x = -6;
-    y = Math.random() * rect.height;
-  } else {
-    x = rect.width + 6;
-    y = Math.random() * rect.height;
-  }
-
-  s.style.left = x + "px";
-  s.style.top = y + "px";
-
-  name.appendChild(s);
-  setTimeout(() => s.remove(), 3800);
-}, 220);
-</script>
-
-</body>
-</html>
+/* SPARKLES */
+setInterval(()=>{
+  const s=document.createElement("div");
+  s.cl
