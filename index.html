@@ -6,142 +6,157 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Official Bio — @Itsobn">
 
-<!-- Animated Favicon -->
 <link rel="icon" id="favicon">
 
 <style>
 :root {
-  --accent: #ff2b2b;
-  --glass: rgba(20,20,20,0.55);
-  --overlay: rgba(0,0,0,0.65);
-  --text: #fff;
+  --accent:#ff2b2b;
+  --glass:rgba(20,20,20,0.55);
+  --overlay:rgba(0,0,0,0.65);
+  --text:#fff;
 }
 
-* { margin:0; padding:0; box-sizing:border-box; }
+*{margin:0;padding:0;box-sizing:border-box}
 
-body {
-  font-family: Arial, sans-serif;
+body{
+  font-family:Arial,sans-serif;
   background:black;
   color:var(--text);
   overflow:hidden;
-  cursor: url('cursor.png'), auto;
 }
 
 /* BACKGROUND */
-.bg {
-  position:fixed;
-  inset:0;
+.bg{
+  position:fixed;inset:0;
   background:url("ItsSpankemV2.png") center/cover no-repeat;
   filter:blur(6px);
   transform:scale(1.08);
   z-index:-3;
-  transition:transform 0.15s linear;
 }
 
-/* SPOTIFY BACKGROUND */
-.spotify-bg {
-  position: fixed;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  opacity: 0.18;
-  filter: blur(14px) saturate(1.4);
-  z-index: -6;
-  animation: slowZoom 18s linear infinite;
+/* SPOTIFY BG */
+.spotify-bg{
+  position:fixed;inset:0;
+  background-size:cover;
+  background-position:center;
+  opacity:.18;
+  filter:blur(14px) saturate(1.4);
+  z-index:-6;
+  animation:slowZoom 18s linear infinite;
 }
+@keyframes slowZoom{to{transform:scale(1.15)}}
 
-@keyframes slowZoom { 0% { transform: scale(1); } 100% { transform: scale(1.15); } }
+.overlay{position:fixed;inset:0;background:radial-gradient(circle,rgba(0,0,0,.2),var(--overlay));z-index:-2}
 
-/* OVERLAY */
-.overlay { position:fixed; inset:0; background:radial-gradient(circle, rgba(0,0,0,0.2), var(--overlay)); z-index:-2; }
-
-/* ENTER SCREEN */
-.enter {
-  position:fixed; inset:0; background:black; display:flex; justify-content:center; align-items:center;
-  z-index:20; cursor:pointer; transition:opacity 1s ease;
+/* ENTER */
+.enter{
+  position:fixed;inset:0;
+  background:black;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:20;
+  cursor:pointer;
+  transition:opacity 1s ease;
 }
-.enter.fade { opacity:0; pointer-events:none; }
-.enter h1 { font-size:44px; color:#ff2b2b; text-shadow:0 0 6px rgba(255,0,0,.25); font-family:Arial, sans-serif; }
+.enter.fade{opacity:0;pointer-events:none}
+.enter h1{font-size:44px;color:#ff2b2b;text-shadow:0 0 6px rgba(255,0,0,.25)}
 
 /* CENTER CARD */
-.center { position:fixed; inset:0; display:flex; justify-content:center; align-items:center; }
-.card {
-  width:360px; padding:34px; border-radius:24px; backdrop-filter:blur(16px);
-  background:linear-gradient(135deg, rgba(255,255,255,.08), var(--glass)); text-align:center;
+.center{position:fixed;inset:0;display:flex;justify-content:center;align-items:center}
+.card{
+  width:360px;
+  padding:34px;
+  border-radius:24px;
+  backdrop-filter:blur(16px);
+  background:linear-gradient(135deg,rgba(255,255,255,.08),var(--glass));
+  text-align:center;
 }
 
-/* DISCORD AVATAR */
-.avatar {
-  width:90px; height:90px; border-radius:50%; border:2px solid var(--accent); margin:0 auto 15px;
-  box-shadow:0 0 25px rgba(255,0,0,.6); transition:box-shadow 0.3s;
+/* AVATAR */
+.avatar{
+  width:90px;height:90px;
+  border-radius:50%;
+  border:2px solid var(--accent);
+  margin:0 auto 15px;
+  box-shadow:0 0 30px rgba(255,0,0,.7);
 }
-.avatar.online { box-shadow:0 0 30px rgba(0,255,120,0.9); border-color:#00ff78; }
-.avatar.idle { box-shadow:0 0 30px rgba(255,190,60,0.9); border-color:#ffbe3c; }
-.avatar.dnd { box-shadow:0 0 30px rgba(255,60,60,0.9); border-color:#ff3c3c; }
-.avatar.offline { box-shadow:0 0 18px rgba(150,150,150,0.6); border-color:#999; }
 
 /* USERNAME */
-.username {
-  position: relative; font-size:38px; margin-bottom:18px;
-  color: rgba(255,255,255,0.25);
-  text-shadow:0 0 10px rgba(255,0,0,0.35), 0 0 20px rgba(255,0,0,0.25);
-  display:inline-flex; align-items:center; justify-content:center;
+.username{
+  font-size:38px;
+  margin-bottom:18px;
+  color:rgba(255,255,255,.25);
+  text-shadow:0 0 10px rgba(255,0,0,.35),0 0 20px rgba(255,0,0,.25);
+  display:inline-flex;
+  align-items:center;
   gap:6px;
 }
 
-/* Verified check (Twitter/X style) */
-.username svg {
-  width:20px; height:20px; fill:#1DA1F2;
-  filter: drop-shadow(0 0 4px rgba(0,200,255,0.5));
+.username svg{
+  width:20px;height:20px;
+  fill:#1DA1F2;
+  filter:drop-shadow(0 0 4px rgba(0,200,255,.5));
 }
 
-/* FIRE SPARKLES FLOATING */
-.fire {
-  position:absolute; font-size:10px; color:#ff6a00;
-  text-shadow:0 0 6px rgba(255,100,0,0.9),0 0 14px rgba(255,0,0,0.6);
+/* SPARKLES */
+.fire{
+  position:absolute;
+  font-size:10px;
+  color:#ff6a00;
+  text-shadow:0 0 6px rgba(255,100,0,.9),0 0 14px rgba(255,0,0,.6);
+  animation:floatFire 2.8s ease-in-out infinite;
   pointer-events:none;
-  animation: floatFire 2.8s ease-in-out infinite;
 }
-@keyframes floatFire {
-  0% { transform: translate(0,0) scale(0.6); opacity:0.9; }
-  50% { transform: translate(calc(-5px + 10px*var(--rx)), calc(-5px + 10px*var(--ry))) scale(1); opacity:0.6; }
-  100% { transform: translate(0,0) scale(0.6); opacity:0.9; }
+@keyframes floatFire{
+  0%{transform:scale(.6);opacity:.9}
+  50%{transform:scale(1);opacity:.6}
+  100%{transform:scale(.6);opacity:.9}
 }
 
-/* SOCIALS TEXT ONLY */
-.socials a {
-  display:flex; align-items:center; margin:12px 0; padding:14px;
-  border-radius:14px; text-decoration:none; color:white; background:rgba(0,0,0,.45);
-  border:1px solid rgba(255,0,0,.55); transition:.3s;
+/* SOCIALS */
+.socials a{
+  display:flex;
+  margin:12px 0;
+  padding:14px;
+  border-radius:14px;
+  text-decoration:none;
+  color:white;
+  background:rgba(0,0,0,.45);
+  border:1px solid rgba(255,0,0,.55);
+  transition:.3s;
 }
-.socials a:hover { transform:scale(1.06); }
+.socials a:hover{transform:scale(1.06)}
 
-/* SPOTIFY */
-.spotify { margin-top:15px; font-size:13px; opacity:.75; }
-.spotify-progress { width:100%; height:4px; background: rgba(255,255,255,0.15); margin-top:6px; border-radius:2px; overflow:hidden; }
+.spotify{margin-top:15px;font-size:13px;opacity:.75}
+.spotify-progress{width:100%;height:4px;background:rgba(255,255,255,.15);margin-top:6px;border-radius:2px;overflow:hidden}
 
-/* FOOTER */
-.footer { margin-top:12px; font-size:12px; opacity:.6; }
+.footer{margin-top:12px;font-size:12px;opacity:.6}
 
-/* MOBILE POLISH */
-@media (max-width:480px){ .card{width:92%; padding:26px;} .username{font-size:32px;} }
+@media(max-width:480px){
+  .card{width:92%;padding:26px}
+  .username{font-size:32px}
+}
 </style>
 </head>
 
 <body>
 
 <div id="spotifyBg" class="spotify-bg"></div>
-<div class="bg" id="bg"></div>
+<div class="bg"></div>
 <div class="overlay"></div>
 
-<!-- ENTER SCREEN -->
 <div class="enter" id="enter"><h1>Click Anywhere To Enter</h1></div>
 <audio id="music" src="music.mp3" loop></audio>
 
 <div class="center">
   <div class="card">
-    <img id="avatar" class="avatar">
-    <div class="username" id="name" data-text="@Itsobn @verified">
+
+    <!-- FIXED GIF AVATAR -->
+    <img class="avatar"
+      src="https://media.discordapp.net/attachments/1373434971309478011/1375664631216865312/IMG_9365.gif">
+
+    <div class="username" id="name">
       @Itsobn
       <svg viewBox="0 0 24 24">
         <path d="M22.5 6.5l-13 13-5.5-5.5 1.5-1.5 4 4 11.5-11.5z"/>
@@ -157,132 +172,58 @@ body {
     </div>
 
     <div class="spotify" id="spotify">Spotify: Not playing</div>
-    <div class="spotify-progress"><div id="progressBar" style="width:0%; height:100%; background:#ff2b2b; border-radius:2px;"></div></div>
+    <div class="spotify-progress">
+      <div id="progressBar" style="width:0%;height:100%;background:#ff2b2b"></div>
+    </div>
 
     <div class="footer">Visits: <span id="visits">0</span></div>
   </div>
 </div>
 
 <script>
-const DISCORD_ID="1361002991246901524";
-
 // Animated Favicon
-let f=0;
+let f=false;
 setInterval(()=>{
   f=!f;
-  document.getElementById("favicon").href=
-  `data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='${f?"#ff2b2b":"#b30000"}'/></svg>`;
+  favicon.href=`data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='${f?"#ff2b2b":"#b30000"}'/></svg>`;
 },800);
 
-// Click anywhere to Enter
-const enter=document.getElementById("enter");
-const music=document.getElementById("music");
+// Enter
 document.addEventListener("click",()=>{
   enter.classList.add("fade");
   music.volume=0;
   music.play();
   let v=0;
   const fade=setInterval(()=>{
-    if(v>=0.6) clearInterval(fade);
+    if(v>=0.6)clearInterval(fade);
     music.volume=v;
     v+=0.02;
   },120);
 });
 
-// Visitor Counter
+// Visits
 fetch("https://api.countapi.xyz/hit/itsspankem/visits")
 .then(r=>r.json())
-.then(d=>document.getElementById("visits").textContent=d.value);
+.then(d=>visits.textContent=d.value);
 
-// Spotify Background
-function setSpotifyBackground(url){document.getElementById("spotifyBg").style.backgroundImage=`url(${url})`;}
-
-// Discord + Spotify fetch
-fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`)
-.then(r=>r.json())
-.then(d=>{
-  const data=d.data;
-  const user=data.discord_user;
-  const status=data.discord_status||"offline";
-  const avatar=document.getElementById("avatar");
-
-  // Avatar fallback
-  if(user.avatar){
-    const format=user.avatar.startsWith("a_")?"gif":"png";
-    avatar.src=`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.${format}?size=256`;
-  } else {
-    avatar.src="ItsSpankemV2.png";
-  }
-
-  avatar.classList.remove("online","idle","dnd","offline");
-  avatar.classList.add(status);
-
-  if(data.activities?.some(a=>a.type===2)) avatar.style.boxShadow="0 0 35px 6px rgba(0,180,255,0.7)";
-
-  // Spotify
-  if(data.spotify){
-    const s=data.spotify;
-    document.getElementById("spotify").textContent=`Spotify: ${s.song} — ${s.artist}`;
-    setSpotifyBackground(s.album_art_url);
-
-    const progress=document.getElementById("progressBar");
-    const duration=s.timestamps.end-s.timestamps.start;
-    function updateProgress(){
-      const now=Date.now();
-      const percent=((now-s.timestamps.start)/duration)*100;
-      progress.style.width=Math.min(percent,100)+"%";
-      if(percent<100) requestAnimationFrame(updateProgress);
-    }
-    updateProgress();
-  } else document.getElementById("spotify").textContent="Spotify: Not playing";
-});
-
-// Smooth floating fire sparkles near username
+// Sparkles
 const name=document.getElementById("name");
-function createFloatingSparkle(){
-  const spark=document.createElement("div");
-  spark.className="fire";
-  spark.textContent=["✦","✧","•","⋆"][Math.floor(Math.random()*4)];
-
-  const rect=name.getBoundingClientRect();
-  const offsetX = (Math.random()-0.5)*rect.width*1.1;
-  const offsetY = (Math.random()-0.5)*rect.height*1.1;
-  spark.style.left=(rect.width/2 + offsetX)+"px";
-  spark.style.top=(rect.height/2 + offsetY)+"px";
-
-  spark.style.setProperty("--rx", Math.random());
-  spark.style.setProperty("--ry", Math.random());
-
-  name.appendChild(spark);
-  setTimeout(()=>spark.remove(),3000);
-}
-setInterval(createFloatingSparkle,150);
-
-// Background parallax on mouse move
-const bg=document.getElementById("bg");
-let mouseX=0, mouseY=0;
-let bgX=0, bgY=0;
-document.addEventListener("mousemove",e=>{
-  const w=window.innerWidth;
-  const h=window.innerHeight;
-  mouseX=(e.clientX - w/2)/w*20;
-  mouseY=(e.clientY - h/2)/h*20;
-});
-function animateBG(){
-  bgX+=(mouseX-bgX)*0.08;
-  bgY+=(mouseY-bgY)*0.08;
-  bg.style.transform=`translate(${bgX}px,${bgY}px) scale(1.08)`;
-  requestAnimationFrame(animateBG);
-}
-animateBG();
+setInterval(()=>{
+  const s=document.createElement("div");
+  s.className="fire";
+  s.textContent=["✦","✧","•","⋆"][Math.random()*4|0];
+  name.appendChild(s);
+  setTimeout(()=>s.remove(),3000);
+},150);
 
 // Anti Inspect
 document.addEventListener("contextmenu",e=>e.preventDefault());
 document.addEventListener("keydown",e=>{
   if(e.key==="F12"||(e.ctrlKey&&e.shiftKey&&["I","J","C"].includes(e.key))){
-    e.preventDefault();console.clear();console.log("%cNice try 👀","color:red;font-size:20px");
+    e.preventDefault();
   }
 });
 </script>
+
 </body>
 </html>
