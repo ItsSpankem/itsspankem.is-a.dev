@@ -88,7 +88,7 @@ body{
   display:block;
   box-shadow:0 0 35px rgba(255,0,0,.6);
   transition:all 0.3s ease;
-  object-fit:cover; /* ensures GIF shows correctly */
+  object-fit:cover;
 }
 
 /* USERNAME */
@@ -96,7 +96,7 @@ body{
   font-size:32px;
   color:#fff;
   text-shadow:0 0 10px rgba(255,0,0,.35),0 0 20px rgba(255,0,0,.25);
-  margin-bottom:20px;
+  margin:0 0 20px;
   display:flex;
   justify-content:center;
   align-items:center;
@@ -147,11 +147,11 @@ body{
 /* FOOTER */
 .footer{margin-top:12px;font-size:12px;opacity:.6}
 
-/* PARTICLES */
+/* SNOW PARTICLES */
 .particle{
   position:absolute;
-  width:6px;
-  height:6px;
+  width:8px;
+  height:8px;
   background:white;
   border-radius:50%;
   pointer-events:none;
@@ -162,7 +162,7 @@ body{
 @keyframes floatParticle{
   0%{transform:translateY(0) scale(0.5);opacity:0.8}
   50%{opacity:0.5}
-  100%{transform:translateY(-80px) scale(1);opacity:0}
+  100%{transform:translateY(-100px) scale(1);opacity:0}
 }
 
 @media(max-width:480px){
@@ -183,8 +183,8 @@ body{
 
 <div class="center">
   <div class="card">
-    <!-- FIXED GIF AVATAR -->
-    <img class="avatar" src="https://media.discordapp.net/attachments/1373434971309478011/1375664631216865312/IMG_9365.gif" alt="Avatar">
+    <!-- GIF Avatar -->
+    <img class="avatar" src="https://images-ext-1.discordapp.net/external/glUdtQAKXTNbSgByqtYVGL-gFu6k-GMJcI_ESO8VoxU/https/media.tenor.com/O_Sq-WqO-l8AAAPo/no-bap.gif" alt="Avatar">
     
     <div class="username" id="name">
       @Itsobn
@@ -236,18 +236,18 @@ fetch("https://api.countapi.xyz/hit/itsspankem/visits")
 .then(r=>r.json())
 .then(d=>document.querySelector(".footer span").textContent=d.value);
 
-// Floating snow particles on mouse move (larger & more visible)
+// Floating snow particles on mouse move (bigger and smoother)
 document.addEventListener("mousemove", e => {
   const particle = document.createElement("div");
   particle.className = "particle";
   particle.style.left = e.clientX + "px";
   particle.style.top = e.clientY + "px";
-  const size = Math.random()*6 + 4; // size between 4px-10px
+  const size = Math.random()*8 + 5; // size 5-13px
   particle.style.width = size + "px";
   particle.style.height = size + "px";
-  particle.style.opacity = Math.random()*0.5 + 0.5; // more visible
+  particle.style.opacity = Math.random()*0.6 + 0.4; // more visible
   document.body.appendChild(particle);
-  setTimeout(()=>particle.remove(), 2500);
+  setTimeout(()=>particle.remove(), 3000);
 });
 
 // Anti inspect
