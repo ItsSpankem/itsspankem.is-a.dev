@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Official Bio — @Itsobn">
 
+<!-- Favicon -->
 <link rel="icon" id="favicon">
 
 <style>
@@ -16,13 +17,14 @@
   --text:#fff;
 }
 
-*{margin:0;padding:0;box-sizing:border-box}
-
+/* Reset */
+*{margin:0;padding:0;box-sizing:border-box;}
 body{
   font-family:Arial,sans-serif;
   background:black;
   color:var(--text);
   overflow:hidden;
+  cursor:none; /* custom cursor can be added */
 }
 
 /* BACKGROUND */
@@ -32,23 +34,15 @@ body{
   filter:blur(6px);
   transform:scale(1.08);
   z-index:-3;
+  transition:transform 0.15s linear;
 }
-
-/* SPOTIFY BG */
-.spotify-bg{
+.overlay{
   position:fixed;inset:0;
-  background-size:cover;
-  background-position:center;
-  opacity:.18;
-  filter:blur(14px) saturate(1.4);
-  z-index:-6;
-  animation:slowZoom 18s linear infinite;
+  background:radial-gradient(circle, rgba(0,0,0,0.2), var(--overlay));
+  z-index:-2;
 }
-@keyframes slowZoom{to{transform:scale(1.15)}}
 
-.overlay{position:fixed;inset:0;background:radial-gradient(circle,rgba(0,0,0,.2),var(--overlay));z-index:-2}
-
-/* ENTER */
+/* ENTER SCREEN */
 .enter{
   position:fixed;inset:0;
   background:black;
@@ -60,107 +54,139 @@ body{
   transition:opacity 1s ease;
 }
 .enter.fade{opacity:0;pointer-events:none}
-.enter h1{font-size:44px;color:#ff2b2b;text-shadow:0 0 6px rgba(255,0,0,.25)}
+.enter h1{
+  font-size:44px;
+  color:#ff2b2b;
+  text-shadow:0 0 6px rgba(255,0,0,.25);
+}
 
 /* CENTER CARD */
-.center{position:fixed;inset:0;display:flex;justify-content:center;align-items:center}
+.center{
+  position:fixed;inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
 .card{
   width:360px;
   padding:34px;
   border-radius:24px;
   backdrop-filter:blur(16px);
-  background:linear-gradient(135deg,rgba(255,255,255,.08),var(--glass));
+  background:linear-gradient(135deg, rgba(255,255,255,.08), var(--glass));
   text-align:center;
+  position:relative;
+  overflow:hidden;
 }
 
 /* AVATAR */
 .avatar{
-  width:90px;height:90px;
+  width:120px;
+  height:120px;
   border-radius:50%;
-  border:2px solid var(--accent);
-  margin:0 auto 15px;
-  box-shadow:0 0 30px rgba(255,0,0,.7);
+  border:3px solid var(--accent);
+  margin:0 auto 18px;
+  display:block;
+  box-shadow:0 0 25px rgba(255,0,0,.6);
+  transition:all 0.3s ease;
 }
 
 /* USERNAME */
 .username{
-  font-size:38px;
-  margin-bottom:18px;
-  color:rgba(255,255,255,.25);
+  font-size:32px;
+  color:#fff;
   text-shadow:0 0 10px rgba(255,0,0,.35),0 0 20px rgba(255,0,0,.25);
-  display:inline-flex;
+  margin-bottom:20px;
+  display:flex;
+  justify-content:center;
   align-items:center;
   gap:6px;
 }
-
 .username svg{
   width:20px;height:20px;
   fill:#1DA1F2;
   filter:drop-shadow(0 0 4px rgba(0,200,255,.5));
 }
 
-/* SPARKLES */
-.fire{
-  position:absolute;
-  font-size:10px;
-  color:#ff6a00;
-  text-shadow:0 0 6px rgba(255,100,0,.9),0 0 14px rgba(255,0,0,.6);
-  animation:floatFire 2.8s ease-in-out infinite;
-  pointer-events:none;
-}
-@keyframes floatFire{
-  0%{transform:scale(.6);opacity:.9}
-  50%{transform:scale(1);opacity:.6}
-  100%{transform:scale(.6);opacity:.9}
-}
-
 /* SOCIALS */
 .socials a{
   display:flex;
-  margin:12px 0;
-  padding:14px;
-  border-radius:14px;
+  justify-content:center;
+  margin:8px 0;
+  padding:12px 0;
+  border-radius:12px;
   text-decoration:none;
   color:white;
-  background:rgba(0,0,0,.45);
+  background:rgba(0,0,0,.35);
   border:1px solid rgba(255,0,0,.55);
   transition:.3s;
 }
-.socials a:hover{transform:scale(1.06)}
+.socials a:hover{transform:scale(1.05)}
 
-.spotify{margin-top:15px;font-size:13px;opacity:.75}
-.spotify-progress{width:100%;height:4px;background:rgba(255,255,255,.15);margin-top:6px;border-radius:2px;overflow:hidden}
+/* SPOTIFY */
+.spotify{
+  margin-top:15px;
+  font-size:13px;
+  opacity:.75;
+}
+.spotify-progress{
+  width:100%;
+  height:4px;
+  background: rgba(255,255,255,.15);
+  margin-top:6px;
+  border-radius:2px;
+  overflow:hidden;
+}
+#progressBar{
+  width:0%;
+  height:100%;
+  background:#ff2b2b;
+  border-radius:2px;
+}
 
+/* FOOTER */
 .footer{margin-top:12px;font-size:12px;opacity:.6}
 
+/* PARTICLES */
+.particle{
+  position:absolute;
+  width:4px;
+  height:4px;
+  background:white;
+  border-radius:50%;
+  pointer-events:none;
+  opacity:0.8;
+  filter:blur(1px);
+  animation:floatParticle 3s linear infinite;
+}
+@keyframes floatParticle{
+  0%{transform:translateY(0) scale(0.5);opacity:0.7}
+  50%{opacity:0.3}
+  100%{transform:translateY(-50px) scale(1);opacity:0}
+}
+
 @media(max-width:480px){
-  .card{width:92%;padding:26px}
-  .username{font-size:32px}
+  .card{width:90%;padding:26px;}
+  .username{font-size:28px;}
+  .avatar{width:100px;height:100px;}
 }
 </style>
 </head>
-
 <body>
 
-<div id="spotifyBg" class="spotify-bg"></div>
 <div class="bg"></div>
 <div class="overlay"></div>
 
+<!-- Enter Screen -->
 <div class="enter" id="enter"><h1>Click Anywhere To Enter</h1></div>
 <audio id="music" src="music.mp3" loop></audio>
 
 <div class="center">
   <div class="card">
-
-    <!-- FIXED GIF AVATAR -->
-    <img class="avatar"
-      src="https://media.discordapp.net/attachments/1373434971309478011/1375664631216865312/IMG_9365.gif">
-
+    <img class="avatar" src="https://media.discordapp.net/attachments/1373434971309478011/1375664631216865312/IMG_9365.gif" alt="Avatar">
+    
     <div class="username" id="name">
       @Itsobn
-      <svg viewBox="0 0 24 24">
-        <path d="M22.5 6.5l-13 13-5.5-5.5 1.5-1.5 4 4 11.5-11.5z"/>
-      </svg>
+      <svg viewBox="0 0 24 24"><path d="M22.5 6.5l-13 13-5.5-5.5 1.5-1.5 4 4 11.5-11.5z"/></svg>
     </div>
 
     <div class="socials">
@@ -173,7 +199,7 @@ body{
 
     <div class="spotify" id="spotify">Spotify: Not playing</div>
     <div class="spotify-progress">
-      <div id="progressBar" style="width:0%;height:100%;background:#ff2b2b"></div>
+      <div id="progressBar"></div>
     </div>
 
     <div class="footer">Visits: <span id="visits">0</span></div>
@@ -188,14 +214,16 @@ setInterval(()=>{
   favicon.href=`data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='${f?"#ff2b2b":"#b30000"}'/></svg>`;
 },800);
 
-// Enter
+// Enter click
+const enter=document.getElementById("enter");
+const music=document.getElementById("music");
 document.addEventListener("click",()=>{
   enter.classList.add("fade");
   music.volume=0;
   music.play();
   let v=0;
   const fade=setInterval(()=>{
-    if(v>=0.6)clearInterval(fade);
+    if(v>=0.6) clearInterval(fade);
     music.volume=v;
     v+=0.02;
   },120);
@@ -204,19 +232,22 @@ document.addEventListener("click",()=>{
 // Visits
 fetch("https://api.countapi.xyz/hit/itsspankem/visits")
 .then(r=>r.json())
-.then(d=>visits.textContent=d.value);
+.then(d=>document.querySelector(".footer span").textContent=d.value);
 
-// Sparkles
-const name=document.getElementById("name");
-setInterval(()=>{
-  const s=document.createElement("div");
-  s.className="fire";
-  s.textContent=["✦","✧","•","⋆"][Math.random()*4|0];
-  name.appendChild(s);
-  setTimeout(()=>s.remove(),3000);
-},150);
+// Floating snow particles on mouse move
+document.addEventListener("mousemove", e => {
+  const particle = document.createElement("div");
+  particle.className = "particle";
+  particle.style.left = e.clientX + "px";
+  particle.style.top = e.clientY + "px";
+  particle.style.width = (Math.random()*3 + 2) + "px";
+  particle.style.height = particle.style.width;
+  particle.style.opacity = Math.random()*0.5 + 0.3;
+  document.body.appendChild(particle);
+  setTimeout(()=>particle.remove(), 2000);
+});
 
-// Anti Inspect
+// Anti inspect
 document.addEventListener("contextmenu",e=>e.preventDefault());
 document.addEventListener("keydown",e=>{
   if(e.key==="F12"||(e.ctrlKey&&e.shiftKey&&["I","J","C"].includes(e.key))){
@@ -224,6 +255,5 @@ document.addEventListener("keydown",e=>{
   }
 });
 </script>
-
 </body>
 </html>
