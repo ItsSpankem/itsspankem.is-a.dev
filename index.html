@@ -9,6 +9,17 @@
 <!-- Favicon -->
 <link rel="icon" id="favicon">
 
+<!-- Horsemen Font (Demo Version) -->
+<style>
+@font-face {
+  font-family: 'Horsemen';
+  src: url('Horsemen-Demo.woff2') format('woff2'),
+       url('Horsemen-Demo.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+</style>
+
 <style>
 :root {
   --accent:#ff2b2b;
@@ -93,14 +104,16 @@ body{
 
 /* USERNAME */
 .username{
-  font-size:32px;
-  color:#fff;
+  font-family:'Horsemen', sans-serif;
+  font-size:36px;
+  color:rgba(255,255,255,0.85); /* See-through */
   text-shadow:0 0 10px rgba(255,0,0,.35),0 0 20px rgba(255,0,0,.25);
   margin:0 0 20px;
   display:flex;
   justify-content:center;
   align-items:center;
   gap:6px;
+  transition: color 0.3s ease;
 }
 .username svg{
   width:20px;height:20px;
@@ -112,8 +125,8 @@ body{
 .socials a{
   display:flex;
   justify-content:center;
-  margin:8px 0;
-  padding:12px 0;
+  margin:6px 0;
+  padding:10px 0;
   border-radius:12px;
   text-decoration:none;
   color:white;
@@ -121,7 +134,10 @@ body{
   border:1px solid rgba(255,0,0,.55);
   transition:.3s;
 }
-.socials a:hover{transform:scale(1.05)}
+.socials a:hover{
+  transform:scale(1.05);
+  background:rgba(255,0,0,0.15);
+}
 
 /* SPOTIFY */
 .spotify{
@@ -147,7 +163,7 @@ body{
 /* FOOTER */
 .footer{margin-top:12px;font-size:12px;opacity:.6}
 
-/* SNOW PARTICLES */
+/* SMOOTH SNOW PARTICLES */
 .particle{
   position:absolute;
   width:8px;
@@ -155,14 +171,14 @@ body{
   background:white;
   border-radius:50%;
   pointer-events:none;
-  opacity:0.9;
+  opacity:0.8;
   filter:blur(1px);
-  animation:floatParticle 3s linear infinite;
+  animation:floatParticle 4s linear forwards;
 }
 @keyframes floatParticle{
   0%{transform:translateY(0) scale(0.5);opacity:0.8}
   50%{opacity:0.5}
-  100%{transform:translateY(-100px) scale(1);opacity:0}
+  100%{transform:translateY(-120px) scale(1);opacity:0}
 }
 
 @media(max-width:480px){
@@ -192,11 +208,11 @@ body{
     </div>
 
     <div class="socials">
-      <a href="https://instagram.com">Instagram</a>
-      <a href="https://tiktok.com">TikTok</a>
-      <a href="https://youtube.com">YouTube</a>
-      <a href="https://discord.gg">Discord</a>
-      <a href="https://twitch.tv">Twitch</a>
+      <a href="https://www.instagram.com/bloodyhoundjefferyfto/?hl=en">Instagram</a>
+      <a href="https://www.tiktok.com/@itsspankem">TikTok</a>
+      <a href="https://www.youtube.com/@ItsSpankem">YouTube</a>
+      <a href="https://discord.gg/windyheights">Discord</a>
+      <a href="https://www.twitch.tv/obndracc">Twitch</a>
     </div>
 
     <div class="spotify" id="spotify">Spotify: Not playing</div>
@@ -236,18 +252,18 @@ fetch("https://api.countapi.xyz/hit/itsspankem/visits")
 .then(r=>r.json())
 .then(d=>document.querySelector(".footer span").textContent=d.value);
 
-// Floating snow particles on mouse move (larger and smoother)
+// Smooth floating snow particles
 document.addEventListener("mousemove", e => {
   const particle = document.createElement("div");
   particle.className = "particle";
   particle.style.left = e.clientX + "px";
   particle.style.top = e.clientY + "px";
-  const size = Math.random()*8 + 5; // 5-13px
+  const size = Math.random()*6 + 4; // 4-10px
   particle.style.width = size + "px";
   particle.style.height = size + "px";
-  particle.style.opacity = Math.random()*0.6 + 0.4; 
+  particle.style.opacity = Math.random()*0.6 + 0.3; 
   document.body.appendChild(particle);
-  setTimeout(()=>particle.remove(), 3000);
+  setTimeout(()=>particle.remove(), 2500); // shorter lifetime to reduce lag
 });
 
 // Anti inspect
